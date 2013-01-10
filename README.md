@@ -11,11 +11,9 @@ Right now the project is experimental so any and all early feedback and ideas wh
 
 For the demo, the [Geography Class](http://tiles.mapbox.com/mapbox/map/geography-class#4.00/0.00/0.00) example project from [TileMill](https://github.com/mapbox/tilemill) was prerendered and is served statically from S3.
 
-This is what it looks like (click image to open in your browser):
+This is what it looks like, best experienced in a Chrome / iPhone / iPad browser (click image to open link):
 
 [![Screen shot](http://spherical-test.s3-website-us-west-1.amazonaws.com/spherical-map-screenshot.png)](http://spherical-test.s3-website-us-west-1.amazonaws.com/)
-
-The demo is best experienced in Chrome / iPhone / iPad browser.
 
 ### Known Issues
 
@@ -40,7 +38,7 @@ These tiles are fitted precisely next to each other in the JavaScript UI to form
 
 The JavaScript side of things actually includes quite a bit of vector math in order to construct the camera, set the CSS transforms accordingly and it also maintains the connection between the 3D coordinate system and the map view. This allows the application developer to, for example, place a \<canvas\> element on top of the map view, transform any WGS84 latitude, longitude coordinates into the view coordinates and then render points or lines in geographically correct positions.
 
-### Tile Server
+### Tile renderer 
 
 Right now the tile server is only able to render TileMill projects, and only shapefiles within them. During development, OpenStreetMap was also rendered from a PostGIS database, so adding that support is close.
 
@@ -56,17 +54,17 @@ The tile rendering server can be run as follows:
 
         carto project.mml | grep -v "[millstone]" > project.xml
 
-4. run tilerender.js as follows to generate the tiles:
+4. run tileserver.js as follows to generate the tiles:
 
-        node tilerender.js project.xml 1
+        node tileserver.js project.xml 1
 
     This will render all tiles for zoomlevel 1 and store them in a directory "tiles-1"
 
     Alternatively, you may just run
 
-        node tilerender.js project.xml
+        node tileserver.js project.xml
 
-    which will run the tile server in an on-demand mode, rendering any requested tiles that cannot be found in the file system.
+    which will run the tile server in an on-demand mode, serving the tiles over HTTP and rendering any requested tiles that cannot be found in the file system.
 
 The tile server in its current form is not really ready to be used for production tile rendering or serving. It was just needed to be able to develop and test the tile rendering process for this experiment.
 
